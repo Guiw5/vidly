@@ -3,5 +3,5 @@
   "mail": {
     "host": "default-mail-server"
   },
-  "db": "s"
+  "db": "mongodb://localhost/playground"
 }

@@ -1,54 +1,47 @@
+const { Genre, validate } = require('../models/genre')
 const express = require('express')
-const Joi = require('joi')
 const router = express.Router()
 
-let genres = [
-  { id: 1, name: 'thriller' },
-  { id: 2, name: 'action' },
-  { id: 3, name: 'terror' },
-  { id: 4, name: 'drama' }
-]
-
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+  const genres = await Genre.find().sort('name')
   res.send(genres)
 })
 
-router.post('/', (req, res) => {
-  const { error } = validateGenre(req.body)
+router.post('/', async (req, res) => {
+  const { error } = validate(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
-  const genre = {
-    id: genres.length + 1,
-    name: req.body.name
-  }
-  genres = [...genres, genre]
+  let genre = new Genre({ name: req.body.name })
+  genre = await genre.save()
+
   res.send(genre)
 })
 
-router.put('/:id', (req, res) => {
-  let genre = genres.find(x => x.id === parseInt(req.params.id))
-  if (!genre) return res.status(404).send('The genre Id does not exists')
-
-  const { error } = validateGenre(req.body)
+router.put('/:id', async (req, res) => {
+  const { error } = validate(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
-  genre.name = req.body.name
+  const genre = await Genre.findByIdAndUpdate(
+    req.params.id,
+    { name: req.body.name },
+    { new: true }
+  )
+
+  if (!genre) return res.status(404).send('The genre Id does not exists')
+
   res.send(genre)
 })
 
-router.delete('/:id', (req, res) => {
-  let genre = genres.find(x => x.id === parseInt(req.params.id))
+router.delete('/:id', async (req, res) => {
+  const genre = await Genre.findByIdAndRemove(req.params.id)
   if (!genre) return res.status(404).send('The genre Id does not exists')
-
-  genres = genres.filter(x => x.id === genre.id)
+  res.send(genre)
 })
 
-validateGenre = name => {
-  const schema = {
-    name: Joi.string()
-      .required()
-      .min(3)
-  }
-  return Joi.validate(name, schema)
-}
+router.get('/:id', async (req, res) => {
+  const genre = await Genre.findById(req.params.id)
+  if (!genre) return res.status(404).send('The genre Id does not exists')
+  res.send(genre)
+})
+
 module.exports = router
