@@ -1,9 +1,12 @@
-const mongoose = require('mongoose')
-const customers = require('./routes/customers')
+const movies = require('./routes/movies')
 const genres = require('./routes/genres')
+const customers = require('./routes/customers')
+
+const mongoose = require('mongoose')
+const express = require('express')
+
 const debug = require('debug')('app:startup')
 const config = require('config')
-const express = require('express')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const app = express()
@@ -16,6 +19,7 @@ app.use(helmet()) //to handle differents request headers
 //routes
 app.use('/api/genres', genres)
 app.use('/api/customers', customers)
+app.use('/api/movies', movies)
 
 isDevelopment = () => app.get('env') === 'development'
 
