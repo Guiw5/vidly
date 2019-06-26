@@ -1,3 +1,6 @@
+const admin = require('../middleware/admin')
+const auth = require('../middleware/auth')
+
 const { Rental, validate } = require('../models/rental')
 const { Movie } = require('../models/movie')
 const { Customer } = require('../models/customer')
@@ -62,7 +65,7 @@ router.put('/:id', auth, async (req, res) => {
   res.send(rental)
 })
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
   const rental = await rental.findByIdAndRemove(req.params.id)
   if (!rental) return res.status(404).send('The rental Id does not exists')
   res.send(rental)

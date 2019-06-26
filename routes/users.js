@@ -6,7 +6,7 @@ const { User, validate } = require('../models/user')
 const express = require('express')
 const router = express.Router()
 
-//Is more secure approach is use /me than /:id
+//More secure approach is use /me than /:id
 //and access the id from the authenticated user object
 router.get('/me', auth, async (req, res) => {
   const user = await User.findById(req.user._id).select('-password')

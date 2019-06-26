@@ -1,3 +1,4 @@
+const admin = require('../middleware/admin')
 const auth = require('../middleware/auth')
 const { Genre } = require('./genres')
 const { Movie, validate } = require('../models/movie')
@@ -50,7 +51,7 @@ router.put('/:id', auth, async (req, res) => {
   res.send(movie)
 })
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
   const movie = await movie.findByIdAndRemove(req.params.id)
   if (!movie) return res.status(404).send('The movie Id does not exists')
   res.send(movie)
