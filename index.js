@@ -1,5 +1,6 @@
 const Joi = require('joi')
 Joi.objectId = require('joi-objectid')(Joi)
+const users = require('./routes/users')
 const rentals = require('./routes/rentals')
 const movies = require('./routes/movies')
 const genres = require('./routes/genres')
@@ -24,6 +25,7 @@ app.use('/api/genres', genres)
 app.use('/api/customers', customers)
 app.use('/api/movies', movies)
 app.use('/api/rentals', rentals)
+app.use('/api/users', users)
 
 isDevelopment = () => app.get('env') === 'development'
 
