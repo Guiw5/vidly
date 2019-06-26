@@ -1,3 +1,5 @@
+const Joi = require('joi')
+Joi.objectId = require('joi-objectid')(Joi)
 const movies = require('./routes/movies')
 const genres = require('./routes/genres')
 const customers = require('./routes/customers')
@@ -20,6 +22,7 @@ app.use(helmet()) //to handle differents request headers
 app.use('/api/genres', genres)
 app.use('/api/customers', customers)
 app.use('/api/movies', movies)
+app.use('/api/rentals', rentals)
 
 isDevelopment = () => app.get('env') === 'development'
 
