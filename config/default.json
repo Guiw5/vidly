@@ -1,7 +1,5 @@
 {
   "name": "My Express App",
-  "mail": {
-    "host": "default-mail-server"
-  },
+  "jwtPrivateKey": "",
   "db": "mongodb://localhost/playground"
 }

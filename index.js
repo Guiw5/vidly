@@ -16,6 +16,11 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const app = express()
 
+if (!config.get('jwtPrivateKey')) {
+  console.log('jwtPrivateKey is not defined')
+  process.exit()
+}
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
