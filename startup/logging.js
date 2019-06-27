@@ -13,7 +13,7 @@ module.exports = () => {
     silly: 'whiteBG'
   }
 
-  winston.addColors(customColors)
+  //winston.addColors(customColors)
   let format = winston.format.combine(
     winston.format.timestamp(),
     winston.format.prettyPrint(),
@@ -22,7 +22,7 @@ module.exports = () => {
   let myConsole = new winston.transports.Console({ format: format })
 
   winston.add(myConsole)
-  winston.add(new winston.transports.File({ filename: 'logfile.log' }))
+  winston.add(new winston.transports.File({ filename: 'logs/logfile.log' }))
   winston.add(
     new winston.transports.MongoDB({ db: config.get('db'), level: 'error' })
   )
@@ -32,7 +32,7 @@ module.exports = () => {
   })
 
   winston.exceptions.handle(
-    new winston.transports.File({ filename: 'uncaughtExceptions.log' }),
+    new winston.transports.File({ filename: 'logs/uncaughtExceptions.log' }),
     myConsole
   )
 }
