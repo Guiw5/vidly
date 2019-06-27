@@ -1,5 +1,11 @@
+require('express-async-errors')
+let winston = require('winston')
+require('winston-mongodb')
+
 const Joi = require('joi')
 Joi.objectId = require('joi-objectid')(Joi)
+
+const error = require('./middleware/error')
 const auth = require('./routes/auth')
 const users = require('./routes/users')
 const rentals = require('./routes/rentals')
@@ -16,9 +22,23 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const app = express()
 
+process.on('unhandledRejection', ex => {
+  throw ex
+})
+
+winston.exceptions.handle(
+  new winston.transports.File({ filename: 'uncaughtExceptions.log' })
+)
+
+winston.add(new winston.transports.Console())
+winston.add(new winston.transports.File({ filename: 'logfile.log' }))
+winston.add(
+  new winston.transports.MongoDB({ db: config.get('db'), level: 'error' })
+)
+
 if (!config.get('jwtPrivateKey')) {
-  console.log('jwtPrivateKey is not defined')
-  process.exit()
+  console.log('FATAL ERROR: jwtPrivateKey is not defined')
+  process.exit(1)
 }
 
 app.use(express.json())
@@ -33,6 +53,9 @@ app.use('/api/movies', movies)
 app.use('/api/rentals', rentals)
 app.use('/api/users', users)
 app.use('/api/auth', auth)
+
+//adding error middleware to write logs and send 500 status responses
+app.use(error)
 
 isDevelopment = () => app.get('env') === 'development'
 
