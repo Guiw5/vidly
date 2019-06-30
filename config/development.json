@@ -1,7 +1,0 @@
-{
-  "name": "My Express App Dev",
-  "mail": {
-    "host": "dev-mail-server"
-  },
-  "db": "mongodb://localhost/playground"
-}
