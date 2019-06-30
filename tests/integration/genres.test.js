@@ -30,13 +30,13 @@ describe('/api/genres', () => {
 
   describe('GET /:id', () => {
     it('should return 404 if the genre id is not valid', async () => {
-      let id = mongoose.Types.ObjectId()
-      const res = await request(server).get('/api/genres/' + id)
+      const res = await request(server).get('/api/genres/5')
       expect(res.status).toBe(404)
     })
 
     it('should return 404 if the genre not exists', async () => {
-      const res = await request(server).get('/api/genres/')
+      let id = mongoose.Types.ObjectId()
+      const res = await request(server).get('/api/genres/' + id)
       expect(res.status).toBe(404)
     })
 

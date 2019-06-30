@@ -50,21 +50,6 @@ router.post('/', auth, async (req, res) => {
   }
 })
 
-router.put('/:id', auth, async (req, res) => {
-  const { error } = validate(req.body)
-  if (error) return res.status(400).send(error.details[0].message)
-
-  const rental = await rental.findByIdAndUpdate(
-    req.params.id,
-    { dateReturned: Date.now, rentalFee: 15 * (Date.now - rental.dateOut) },
-    { new: true }
-  )
-
-  if (!rental) return res.status(404).send('The rental Id does not exists')
-
-  res.send(rental)
-})
-
 router.delete('/:id', [auth, admin], async (req, res) => {
   const rental = await rental.findByIdAndRemove(req.params.id)
   if (!rental) return res.status(404).send('The rental Id does not exists')

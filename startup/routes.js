@@ -6,6 +6,7 @@ const rentals = require('../routes/rentals')
 const movies = require('../routes/movies')
 const genres = require('../routes/genres')
 const customers = require('../routes/customers')
+const returns = require('../routes/returns')
 
 module.exports = app => {
   app.use(express.json())
@@ -18,6 +19,7 @@ module.exports = app => {
   app.use('/api/rentals', rentals)
   app.use('/api/users', users)
   app.use('/api/auth', auth)
+  app.use('/api/returns', returns)
   //error middleware to write logs and send 500 status responses
   app.use(error)
 }
