@@ -12,8 +12,8 @@
     },
     {
       "type": "node",
-      "name": "vscode-jest-tests",
       "request": "launch",
+      "name": "vscode-jest-tests",
       "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       "args": ["--runInBand", "--watch", "--verbose", "--detectOpenHandles"],
       "cwd": "${workspaceFolder}",
