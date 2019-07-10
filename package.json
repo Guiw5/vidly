@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --verbose --runInBand",
+    "test": "jest --watch --verbose --runInBand",
     "start": "node index.js"
   },
   "engines": {
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "jest": "^24.8.0",
+    "@types/jest": "^24.0.15",
     "supertest": "^4.0.2"
   }
 }
